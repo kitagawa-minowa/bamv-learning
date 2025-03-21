@@ -1,5 +1,6 @@
 package bamv.training.microposts.dao;
 
+import bamv.training.microposts.dto.UserDto;
 import bamv.training.microposts.entity.MUser;
 import org.springframework.stereotype.Repository;
 
@@ -12,4 +13,6 @@ public interface MUserDao {
     List<MUser> searchUser(String userId);
 
     int addNewUser(String userId, String name, String password);
+
+    List<MUser> searchUsers(String userId, int page);
 }

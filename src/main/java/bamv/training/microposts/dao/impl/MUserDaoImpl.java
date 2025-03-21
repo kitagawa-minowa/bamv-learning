@@ -2,6 +2,7 @@ package bamv.training.microposts.dao.impl;
 
 import bamv.training.microposts.dao.MUserDao;
 import bamv.training.microposts.entity.MUser;
+import bamv.training.microposts.entity.TMicropost;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -30,5 +31,21 @@ public class MUserDaoImpl implements MUserDao {
     public int addNewUser(String userId, String name, String password) {
         String query = "insert into m_user (user_id, name, password) values (?, ?, ?)";
         return jdbcTemplate.update(query, userId, name, password);
+    }
+
+    public List<MUser> searchUsers(String userId, int page) {
+        RowMapper<MUser> rowMapper = new BeanPropertyRowMapper<>(MUser.class);
+        int offset = 5 * (page - 1);
+
+        String query = """
+                    SELECT
+                        mu.*
+                    FROM
+                        m_user mu
+                    WHERE
+                        mu.user_id <> ?
+                    limit ?, 5
+                """;
+        return jdbcTemplate.query(query, rowMapper, userId, offset);
     }
 }
