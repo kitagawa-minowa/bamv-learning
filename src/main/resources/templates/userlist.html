@@ -87,11 +87,12 @@
 <!--                                       ), 'yyyy-MM-dd hh:mm:ss')}">-->
 <!--                                </small>-->
 <!--                            </p>-->
-                            <form action="">
+                            <form th:action="@{/follow}" method="post">
                                 <input type="submit"
                                        class="btn btn-primary"
                                        th:value="フォロー"
                                 />
+                                <input type="hidden" name="followedUser" th:value="${user.userId}">
                             </form>
                         </div>
                     </div>
