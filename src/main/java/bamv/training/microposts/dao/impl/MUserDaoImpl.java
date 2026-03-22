@@ -50,4 +50,44 @@ public class MUserDaoImpl implements MUserDao {
                    """;
         return jdbcTemplate.query(query, rowMapper, userId, offset);
     }
+
+    @Override
+    public List<MUser> findFollowingUser(String userId, int page) {
+        RowMapper<MUser> rowMapper = new BeanPropertyRowMapper<>(MUser.class);
+        int offset = 5 * (page - 1);
+        String query = """
+                    SELECT
+                        m_user.*
+                    FROM
+                        m_user, t_follow
+                    WHERE 
+                        t_follow.following_user_id = ?
+                        AND
+                        m_user.user_id = t_follow.followed_user_id
+                    ORDER BY
+                        user_id desc
+                    limit ?, 5
+                   """;
+        return jdbcTemplate.query(query, rowMapper, userId, offset);
+    }
+
+    @Override
+    public List<MUser> findFollowedUser(String userId, int page) {
+        RowMapper<MUser> rowMapper = new BeanPropertyRowMapper<>(MUser.class);
+        int offset = 5 * (page - 1);
+        String query = """
+                    SELECT
+                        m_user.*
+                    FROM
+                        m_user, t_follow
+                    WHERE
+                        t_follow.followed_user_id = ?
+                        AND
+                        m_user.user_id = t_follow.following_user_id
+                    ORDER BY
+                        user_id desc
+                    limit ?, 5
+                   """;
+        return jdbcTemplate.query(query, rowMapper, userId, offset);
+    }
 }

@@ -1,7 +1,7 @@
 package bamv.training.microposts.dto;
 
 public class OtherUserDto extends UserDto{
-    boolean isFollowing;
+    private boolean isFollowing;
 
     public OtherUserDto(String userId, String name) {
         super(userId, name);

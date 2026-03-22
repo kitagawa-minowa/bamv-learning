@@ -85,6 +85,7 @@ public class MicropostsController {
         int myFollowerNumber = followService.findFollowerNumber(userId); // 自ユーザーのフォロワー数
 
         /* View ⇔ Controller */
+        model.addAttribute("myUserId", user.getUserId());
         model.addAttribute("myUserName", user.getName());
         model.addAttribute("myFollowNumber", myFollowNumber);
         model.addAttribute("myFollowerNumber", myFollowerNumber);
@@ -121,7 +122,9 @@ public class MicropostsController {
     }
 
     @PostMapping("/follow")
-    String follow(HttpServletRequest httpServletRequest, @RequestParam String followedUser){
+    String follow(HttpServletRequest httpServletRequest,
+                  @RequestParam String followedUser,
+                  @RequestParam(value = "returnTo", defaultValue = "/userlist") String returnTo){
         /* ユーザー認証情報からユーザIDを取得 */
         String userId = httpServletRequest.getRemoteUser();
 
@@ -129,11 +132,13 @@ public class MicropostsController {
         String followedUserId = userService.findUser(followedUser).getUserId();
 
         followService.addFollow(userId, followedUserId);
-        return "redirect:/userlist";
+        return "redirect:" + returnTo;
     }
 
     @PostMapping("/delete-follow")
-    String deleteFollow(HttpServletRequest httpServletRequest, @RequestParam String followedUser){
+    String deleteFollow(HttpServletRequest httpServletRequest,
+                        @RequestParam String followedUser,
+                        @RequestParam(value = "returnTo", defaultValue = "/userlist") String returnTo){
         /* ユーザー認証情報からユーザIDを取得 */
         String userId = httpServletRequest.getRemoteUser();
 
@@ -141,7 +146,7 @@ public class MicropostsController {
         String followedUserId = userService.findUser(followedUser).getUserId();
 
         followService.deleteFollow(userId, followedUserId);
-        return "redirect:/userlist";
+        return "redirect:" + returnTo;
     }
 
     @GetMapping("/userprofile")
@@ -162,5 +167,29 @@ public class MicropostsController {
         model.addAttribute("page", page);
 
         return "userprofile";
+    }
+
+    @GetMapping("/followlist")
+    String followList(Model model, HttpServletRequest httpServletRequest, @RequestParam(name = "page", defaultValue = "1") int page){
+        /* ユーザー認証情報からユーザIDを取得 */
+        String userId = httpServletRequest.getRemoteUser();
+
+        List<UserDto> followingUsers = userService.findFollowingUser(userId, page);
+        model.addAttribute("followingUsers", followingUsers);
+        model.addAttribute("page", page);
+
+        return "followlist";
+    }
+
+    @GetMapping("/followerlist")
+    String followerList(Model model, HttpServletRequest httpServletRequest, @RequestParam(name = "page", defaultValue = "1") int page){
+        /* ユーザー認証情報からユーザIDを取得 */
+        String userId = httpServletRequest.getRemoteUser();
+
+        List<OtherUserDto> followedUsers = userService.findFollowedUser(userId, page);
+        model.addAttribute("followedUsers", followedUsers);
+        model.addAttribute("page", page);
+
+        return "followerlist";
     }
 }

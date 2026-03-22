@@ -11,4 +11,8 @@ public interface UserService {
     int createNewUser(String userId, String name, String password);
 
     List<OtherUserDto> findAllUsers(String userId, int page);
+
+    List<UserDto> findFollowingUser(String userId, int page);
+
+    List<OtherUserDto> findFollowedUser(String userId, int page);
 }
