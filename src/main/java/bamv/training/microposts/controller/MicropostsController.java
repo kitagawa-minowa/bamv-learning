@@ -107,4 +107,15 @@ public class MicropostsController {
 
         return "redirect:/login";
     }
+
+    @GetMapping("/userlist")
+    String userlist(Model model, HttpServletRequest httpServletRequest, @RequestParam(name = "page", defaultValue = "1") int page){
+        /* ユーザー認証情報からユーザIDを取得 */
+        String userId = httpServletRequest.getRemoteUser();
+
+        List<UserDto> users = userService.findAllUsers(userId);
+        model.addAttribute("users", users);
+        model.addAttribute("page", page);
+        return "userlist";
+    }
 }
