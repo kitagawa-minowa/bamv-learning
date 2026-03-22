@@ -1,6 +1,8 @@
 package bamv.training.microposts.service.impl;
 
 import bamv.training.microposts.dao.MUserDao;
+import bamv.training.microposts.dao.TFollowDao;
+import bamv.training.microposts.dto.OtherUserDto;
 import bamv.training.microposts.dto.UserDto;
 import bamv.training.microposts.entity.MUser;
 import bamv.training.microposts.service.UserService;
@@ -19,6 +21,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private MUserDao mUserDao;
 
+    @Autowired
+    private TFollowDao tFollowDao;
+
     @Override
     public UserDto findUser(String userId) {
         MUser mUser = mUserDao.findUser(userId);
@@ -35,10 +40,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> findAllUsers(String userId) {
+    public List<OtherUserDto> findAllUsers(String userId) {
         List<MUser> mUsers = mUserDao.findAllUsers(userId);
         return mUsers.stream().map(user ->
-                        new UserDto(user.getUserId(), user.getName())
+                        new OtherUserDto(user.getUserId(),
+                                    user.getName(),
+                                    tFollowDao.isFollowing(userId, user.getUserId()))
                         ).toList();
     }
 }

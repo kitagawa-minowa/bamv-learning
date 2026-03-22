@@ -1,6 +1,7 @@
 package bamv.training.microposts.controller;
 
 import bamv.training.microposts.dto.MicropostDto;
+import bamv.training.microposts.dto.OtherUserDto;
 import bamv.training.microposts.dto.UserDto;
 import bamv.training.microposts.form.MicropostForm;
 import bamv.training.microposts.form.UserForm;
@@ -113,7 +114,7 @@ public class MicropostsController {
         /* ユーザー認証情報からユーザIDを取得 */
         String userId = httpServletRequest.getRemoteUser();
 
-        List<UserDto> users = userService.findAllUsers(userId);
+        List<OtherUserDto> users = userService.findAllUsers(userId);
         model.addAttribute("users", users);
         model.addAttribute("page", page);
         return "userlist";
