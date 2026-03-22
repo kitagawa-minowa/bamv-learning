@@ -118,4 +118,16 @@ public class MicropostsController {
         model.addAttribute("page", page);
         return "userlist";
     }
+
+    @PostMapping("/follow")
+    String follow(HttpServletRequest httpServletRequest, @RequestParam String followedUser){
+        /* ユーザー認証情報からユーザIDを取得 */
+        String userId = httpServletRequest.getRemoteUser();
+
+        /* フォロー対象ユーザーのIDを取得 */
+        String followedUserId = userService.findUser(followedUser).getUserId();
+
+        followService.addFollow(userId, followedUserId);
+        return "redirect:/userlist";
+    }
 }
