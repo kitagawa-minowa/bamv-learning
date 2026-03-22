@@ -130,4 +130,16 @@ public class MicropostsController {
         followService.addFollow(userId, followedUserId);
         return "redirect:/userlist";
     }
+
+    @PostMapping("/delete-follow")
+    String deleteFollow(HttpServletRequest httpServletRequest, @RequestParam String followedUser){
+        /* ユーザー認証情報からユーザIDを取得 */
+        String userId = httpServletRequest.getRemoteUser();
+
+        /* フォロー解除対象ユーザーのIDを取得 */
+        String followedUserId = userService.findUser(followedUser).getUserId();
+
+        followService.deleteFollow(userId, followedUserId);
+        return "redirect:/userlist";
+    }
 }
