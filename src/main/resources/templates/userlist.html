@@ -12,57 +12,6 @@
 <span th:replace="~{header :: header}"></span>
 <main class="container">
     <div class="row">
-<!--        <aside class="col-md-4">-->
-<!--            <section class="mt-3">-->
-<!--                <div class="mb-3">-->
-<!--                    <div class="row g-0">-->
-<!--                        <div-->
-<!--                                class="col-md-4 d-flex align-items-center justify-content-center"-->
-<!--                        >-->
-<!--                            <span style="font-size: 100px" class="material-icons">person</span>-->
-<!--                        </div>-->
-<!--                        <div class="col-md-8">-->
-<!--                            <div>-->
-<!--                                <h5 th:text="${myUserName}"></h5>-->
-<!--                                <p><a href="./myprofile">マイプロフィール</a></p>-->
-<!--                                <p><span th:text="${myMicropostsNumber}"></span><small class="text-muted">-->
-<!--                                    投稿</small></p>-->
-<!--                                <span-->
-<!--                                ><span th:text="${myFollowNumber}"></span-->
-<!--                                ><small class="text-muted">フォロー</small></span-->
-<!--                                >-->
-<!--                                <span-->
-<!--                                ><span th:text="${myFollowerNumber}"></span-->
-<!--                                ><small class="text-muted">フォロワー</small></span-->
-<!--                                >-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </section>-->
-
-<!--            <section>-->
-<!--                <form th:action="@{/postnewmicropost}" th:object="${micropostForm}" method="post">-->
-<!--                    <div class="mb-3">-->
-<!--                        <div class="alert alert-danger" th:if="${#fields.hasErrors()}" th:text="バリデーションエラーが発生しました。"></div>-->
-<!--                        <textarea-->
-<!--                                id="content"-->
-<!--                                name="content"-->
-<!--                                th:field="*{content}"-->
-<!--                                placeholder="新規投稿"-->
-<!--                                rows="5"-->
-<!--                                cols="33"-->
-<!--                                class="form-control"-->
-<!--                        ></textarea>-->
-<!--                    </div>-->
-<!--                    <input-->
-<!--                            type="submit"-->
-<!--                            class="btn btn-primary w-100"-->
-<!--                    />-->
-<!--                </form>-->
-<!--            </section>-->
-<!--        </aside>-->
-
         <div class="col-md-8">
             <h3>ピープル</h3>
             <div class="card mb-3" th:each="user : ${users}">
@@ -77,20 +26,18 @@
                             <h5 class="card-title">
                                 <span th:text="${user.name}"></span>
                             </h5>
-<!--                            <p class="card-text" th:text="${followsMicropost.content}">-->
-<!--                            </p>-->
-<!--                            <p class="card-text">-->
-<!--                                <small class="text-muted"-->
-<!--                                       th:text="${#dates.format(-->
-<!--                                       new java.util.Date(-->
-<!--                                           followsMicropost.postedDatetime-->
-<!--                                       ), 'yyyy-MM-dd hh:mm:ss')}">-->
-<!--                                </small>-->
-<!--                            </p>-->
+
                             <form th:action="@{/follow}" method="post">
-                                <input type="submit"
+                                <input th:type="${user.isFollowing} ? hidden: submit"
                                        class="btn btn-primary"
                                        th:value="フォロー"
+                                />
+                                <input type="hidden" name="followedUser" th:value="${user.userId}">
+                            </form>
+                            <form th:action="@{/delete-follow}" method="post">
+                                <input th:type="${user.isFollowing} ? submit: hidden"
+                                       class="btn btn-primary"
+                                       th:value="フォロー解除"
                                 />
                                 <input type="hidden" name="followedUser" th:value="${user.userId}">
                             </form>
