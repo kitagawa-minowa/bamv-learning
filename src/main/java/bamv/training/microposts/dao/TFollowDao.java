@@ -11,4 +11,6 @@ public interface TFollowDao {
     int addFollow(String followingUserId, String followedUserId);
 
     int deleteFollow(String followingUserId, String followedUserId);
+
+    boolean isFollowing(String followingUserId, String followedUserId);
 }

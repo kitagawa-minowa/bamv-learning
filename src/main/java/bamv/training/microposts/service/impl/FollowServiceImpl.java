@@ -29,4 +29,9 @@ public class FollowServiceImpl implements FollowService {
     public int deleteFollow(String followingId, String followedId) {
         return tFollowDao.deleteFollow(followingId, followedId);
     }
+
+    @Override
+    public boolean isFollowing(String followingId, String followedId) {
+        return tFollowDao.isFollowing(followingId, followedId);
+    }
 }

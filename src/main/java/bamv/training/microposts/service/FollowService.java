@@ -8,4 +8,6 @@ public interface FollowService {
     int addFollow(String followingId, String followedId);
 
     int deleteFollow(String followingId, String followedId);
+
+    boolean isFollowing(String followingId, String followedId);
 }
