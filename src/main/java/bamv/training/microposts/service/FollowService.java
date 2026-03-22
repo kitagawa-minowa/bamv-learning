@@ -6,4 +6,6 @@ public interface FollowService {
     int findFollowerNumber(String userId);
 
     int addFollow(String followingId, String followedId);
+
+    int deleteFollow(String followingId, String followedId);
 }

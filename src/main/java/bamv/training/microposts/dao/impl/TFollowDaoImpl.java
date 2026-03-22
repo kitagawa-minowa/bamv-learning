@@ -34,4 +34,10 @@ public class TFollowDaoImpl implements TFollowDao {
         String query = "INSERT INTO t_follow VALUES(?, ?, ?)";
         return jdbcTemplate.update(query, followId, followingUserId, followedUserId);
     }
+
+    @Override
+    public int deleteFollow(String followingUserId, String followedUserId) {
+        String query = "DELETE FROM t_follow WHERE following_user_id = ? AND followed_user_id = ?";
+        return jdbcTemplate.update(query, followingUserId, followedUserId);
+    }
 }
