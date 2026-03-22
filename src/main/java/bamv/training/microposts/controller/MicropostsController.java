@@ -143,4 +143,24 @@ public class MicropostsController {
         followService.deleteFollow(userId, followedUserId);
         return "redirect:/userlist";
     }
+
+    @GetMapping("/userprofile")
+    String userProfile(Model model, @RequestParam String userId, @RequestParam(name = "page", defaultValue = "1") int page) {
+
+        /* Model ⇔ Controller */
+        UserDto user = userService.findUser(userId); // ユーザー情報
+        List<MicropostDto> followsMicropostList = micropostService.searchUserMicropost(userId, page); // ユーザーのマイクロポスト
+        int followNumber = followService.findFollowNumber(userId); // ユーザーのフォロー数
+        int followerNumber = followService.findFollowerNumber(userId); // ユーザーのフォロワー数
+
+        /* View ⇔ Controller */
+        model.addAttribute("userName", user.getName());
+        model.addAttribute("userId", user.getUserId());
+        model.addAttribute("followNumber", followNumber);
+        model.addAttribute("followerNumber", followerNumber);
+        model.addAttribute("followsMicropostList", followsMicropostList);
+        model.addAttribute("page", page);
+
+        return "userprofile";
+    }
 }
