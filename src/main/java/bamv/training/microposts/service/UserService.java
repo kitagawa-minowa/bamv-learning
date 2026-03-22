@@ -10,5 +10,5 @@ public interface UserService {
 
     int createNewUser(String userId, String name, String password);
 
-    List<OtherUserDto> findAllUsers(String userId);
+    List<OtherUserDto> findAllUsers(String userId, int page);
 }

@@ -114,7 +114,7 @@ public class MicropostsController {
         /* ユーザー認証情報からユーザIDを取得 */
         String userId = httpServletRequest.getRemoteUser();
 
-        List<OtherUserDto> users = userService.findAllUsers(userId);
+        List<OtherUserDto> users = userService.findAllUsers(userId, page);
         model.addAttribute("users", users);
         model.addAttribute("page", page);
         return "userlist";

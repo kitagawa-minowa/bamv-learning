@@ -33,9 +33,21 @@ public class MUserDaoImpl implements MUserDao {
     }
 
     @Override
-    public List<MUser> findAllUsers(String userId) {
+    public List<MUser> findAllUsers(String userId, int page) {
         RowMapper<MUser> rowMapper = new BeanPropertyRowMapper<>(MUser.class);
-        String query = "SELECT * FROM m_user WHERE NOT user_id = ?";
-        return jdbcTemplate.query(query, rowMapper, userId);
+//        String query = "SELECT * FROM m_user WHERE NOT user_id = ?";
+        int offset = 5 * (page - 1);
+        String query = """
+                    SELECT
+                        *
+                    FROM
+                        m_user
+                    WHERE NOT 
+                        user_id = ?
+                    ORDER BY
+                        user_id desc
+                    limit ?, 5
+                   """;
+        return jdbcTemplate.query(query, rowMapper, userId, offset);
     }
 }

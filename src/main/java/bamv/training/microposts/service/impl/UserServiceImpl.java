@@ -40,8 +40,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<OtherUserDto> findAllUsers(String userId) {
-        List<MUser> mUsers = mUserDao.findAllUsers(userId);
+    public List<OtherUserDto> findAllUsers(String userId, int page) {
+        List<MUser> mUsers = mUserDao.findAllUsers(userId, page);
         return mUsers.stream().map(user ->
                         new OtherUserDto(user.getUserId(),
                                     user.getName(),
