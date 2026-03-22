@@ -28,8 +28,10 @@ public class TFollowDaoImpl implements TFollowDao {
 
     @Override
     public int addFollow(String followingUserId, String followedUserId) {
+        /* フォローIDの自動採番 */
         String followId = sequenceService.issueSequence("follow_id");
+
         String query = "INSERT INTO t_follow VALUES(?, ?, ?)";
-        return jdbcTemplate.update(query, Integer.class, followId, followingUserId, followedUserId);
+        return jdbcTemplate.update(query, followId, followingUserId, followedUserId);
     }
 }
