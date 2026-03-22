@@ -7,4 +7,6 @@ public interface TFollowDao {
     int countFollowingNumber(String userId);
 
     int countFollowerNumber(String userId);
+
+    int addFollow(String followingUserId, String followedUserId);
 }

@@ -19,4 +19,9 @@ public class FollowServiceImpl implements FollowService {
     public int findFollowerNumber(String userId) {
         return tFollowDao.countFollowerNumber(userId);
     }
+
+    @Override
+    public int addFollow(String followingId, String followedId) {
+        return tFollowDao.addFollow(followingId, followedId);
+    }
 }
