@@ -27,14 +27,14 @@
                                 <a th:href="@{/userprofile?userId={userId}(userId=${user.userId})}" th:text="${user.name}"></a>
                             </h5>
 
-                            <form th:action="@{/follow(returnTo='/userlist')}" method="post">
+                            <form th:action="@{/follow(returnTo='/userlist?page=' + ${page})}" method="post">
                                 <input th:type="${user.isFollowing} ? hidden: submit"
                                        class="btn btn-primary"
                                        th:value="フォロー"
                                 />
                                 <input type="hidden" name="followedUser" th:value="${user.userId}">
                             </form>
-                            <form th:action="@{/delete-follow(returnTo='/userlist')}" method="post">
+                            <form th:action="@{/delete-follow(returnTo='/userlist?page=' + ${page})}" method="post">
                                 <input th:type="${user.isFollowing} ? submit: hidden"
                                        class="btn btn-primary"
                                        th:value="フォロー解除"
