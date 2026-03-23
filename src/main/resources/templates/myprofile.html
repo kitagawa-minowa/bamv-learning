@@ -24,13 +24,13 @@
                         <div class="col-md-8">
                             <div>
                                 <h5 th:text="${myUserName}"></h5>
-                                <a href="./followlist">
+                                <a th:href="@{followlist(userId=${myUserId})}">
                                 <span
                                 ><span th:text="${myFollowNumber}"></span
                                 ><small class="text-muted">フォロー</small></span
                                 >
                                 </a>
-                                <a href="./followerlist">
+                                <a th:href="@{followerlist(userId=${myUserId})}">
                                 <span
                                 ><span th:text="${myFollowerNumber}"></span
                                 ><small class="text-muted">フォロワー</small></span

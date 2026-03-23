@@ -27,20 +27,20 @@
                 <a th:href="@{/userprofile?userId={userId}(userId=${user.userId})}" th:text="${user.name}"></a>
               </h5>
 
-              <form th:action="@{/follow(returnTo='/followerlist')}" method="post">
-                <input th:type="${user.isFollowing} ? hidden: submit"
-                       class="btn btn-primary"
-                       th:value="フォロー"
-                />
-                <input type="hidden" name="followedUser" th:value="${user.userId}">
-              </form>
-              <form th:action="@{/delete-follow(returnTo='/followerlist')}" method="post">
-                <input th:type="${user.isFollowing} ? submit: hidden"
-                       class="btn btn-primary"
-                       th:value="フォロー解除"
-                />
-                <input type="hidden" name="followedUser" th:value="${user.userId}">
-              </form>
+<!--              <form th:action="@{/follow(returnTo='/followerlist', userId=${userID})}" method="post">-->
+<!--                <input th:type="${user.isFollowing} ? hidden: submit"-->
+<!--                       class="btn btn-primary"-->
+<!--                       th:value="フォロー"-->
+<!--                />-->
+<!--                <input type="hidden" name="followedUser" th:value="${user.userId}">-->
+<!--              </form>-->
+<!--              <form th:action="@{/delete-follow(returnTo='/followerlist', userId=${userId})}" method="post">-->
+<!--                <input th:type="${user.isFollowing} ? submit: hidden"-->
+<!--                       class="btn btn-primary"-->
+<!--                       th:value="フォロー解除"-->
+<!--                />-->
+<!--                <input type="hidden" name="followedUser" th:value="${user.userId}">-->
+<!--              </form>-->
             </div>
           </div>
         </div>
@@ -50,21 +50,21 @@
         <ul class="pagination">
           <li class="page-item">
             <th:block th:if="${page - 1} > 0">
-              <a class="page-link" th:href="@{followerlist?page={page}(page=${page - 1})}">前へ</a>
+              <a class="page-link" th:href="@{followerlist(userId=${userId}, page=${page - 1})}">前へ</a>
             </th:block>
             <th:block th:if="${page - 1} <= 0">
               <a class="page-link" href="#">前へ</a>
             </th:block>
           </li>
-          <li class="page-item"><a class="page-link" th:href="@{followerlist?page={page}(page=${page})}"
+          <li class="page-item"><a class="page-link" th:href="@{followerlist(userId=${userId}, page=${page})}"
                                    th:text="${page}"></a></li>
           <li class="page-item"><a class="page-link"
-                                   th:href="@{followerlist?page={page}(page=${page + 1 })}"
+                                   th:href="@{followerlist(userId=${userId}, page=${page + 1 })}"
                                    th:text="${page + 1}"></a></li>
-          <li class="page-item"><a class="page-link" th:href="@{followerlist?page={page}(page=${page + 2})}"
+          <li class="page-item"><a class="page-link" th:href="@{followerlist(userId=${userId}, page=${page + 2})}"
                                    th:text="${page + 2}"></a></li>
           <li class="page-item">
-            <a class="page-link" th:href="@{followerlist?page={page}(page=${page + 1})}">次へ</a>
+            <a class="page-link" th:href="@{followerlist(userId=${userId}, page=${page + 1})}">次へ</a>
           </li>
         </ul>
       </nav>

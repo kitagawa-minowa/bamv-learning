@@ -27,13 +27,13 @@
                                 <p><a href="./myprofile">マイプロフィール</a></p>
                                 <p><span th:text="${myMicropostsNumber}"></span><small class="text-muted">
                                     投稿</small></p>
-                                <a href="./followlist">
+                                <a th:href="@{followlist(userId=${myUserId})}">
                                 <span
                                 ><span th:text="${myFollowNumber}"></span
                                 ><small class="text-muted">フォロー</small></span
                                 >
                                 </a>
-                                <a href="./followerlist">
+                                <a th:href="@{followerlist(userId=${myUserId})}">
                                 <span
                                 ><span th:text="${myFollowerNumber}"></span
                                 ><small class="text-muted">フォロワー</small></span

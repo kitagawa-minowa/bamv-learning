@@ -45,6 +45,7 @@ public class MicropostsController {
         int myFollowerNumber = followService.findFollowerNumber(userId); // 自ユーザーのフォロワー数
 
         /* View ⇔ Controller */
+        model.addAttribute("myUserId", user.getUserId());
         model.addAttribute("myUserName", user.getName());
         model.addAttribute("myMicropostsNumber", myMicropostNumber);
         model.addAttribute("myFollowNumber", myFollowNumber);
@@ -170,11 +171,12 @@ public class MicropostsController {
     }
 
     @GetMapping("/followlist")
-    String followList(Model model, HttpServletRequest httpServletRequest, @RequestParam(name = "page", defaultValue = "1") int page){
-        /* ユーザー認証情報からユーザIDを取得 */
-        String userId = httpServletRequest.getRemoteUser();
+    String followList(Model model,
+                      @RequestParam String userId,
+                      @RequestParam(name = "page", defaultValue = "1") int page){
 
-        List<UserDto> followingUsers = userService.findFollowingUser(userId, page);
+        List<OtherUserDto> followingUsers = userService.findFollowingUser(userId, page);
+        model.addAttribute("userId", userId);
         model.addAttribute("followingUsers", followingUsers);
         model.addAttribute("page", page);
 
@@ -182,11 +184,12 @@ public class MicropostsController {
     }
 
     @GetMapping("/followerlist")
-    String followerList(Model model, HttpServletRequest httpServletRequest, @RequestParam(name = "page", defaultValue = "1") int page){
-        /* ユーザー認証情報からユーザIDを取得 */
-        String userId = httpServletRequest.getRemoteUser();
+    String followerList(Model model,
+                        @RequestParam String userId,
+                        @RequestParam(name = "page", defaultValue = "1") int page){
 
         List<OtherUserDto> followedUsers = userService.findFollowedUser(userId, page);
+        model.addAttribute("userId", userId);
         model.addAttribute("followedUsers", followedUsers);
         model.addAttribute("page", page);
 
