@@ -1,7 +1,6 @@
 package bamv.training.microposts.controller;
 
 import bamv.training.microposts.dto.MicropostDto;
-import bamv.training.microposts.dto.OtherUserDto;
 import bamv.training.microposts.dto.UserDto;
 import bamv.training.microposts.form.MicropostForm;
 import bamv.training.microposts.form.UserForm;
@@ -116,7 +115,7 @@ public class MicropostsController {
         /* ユーザー認証情報からユーザIDを取得 */
         String userId = httpServletRequest.getRemoteUser();
 
-        List<OtherUserDto> users = userService.findAllUsers(userId, page);
+        List<UserDto> users = userService.findAllUsers(userId, page);
         model.addAttribute("users", users);
         model.addAttribute("page", page);
         return "userlist";
@@ -151,13 +150,20 @@ public class MicropostsController {
     }
 
     @GetMapping("/userprofile")
-    String userProfile(Model model, @RequestParam String userId, @RequestParam(name = "page", defaultValue = "1") int page) {
+    String userProfile(Model model,
+                       HttpServletRequest httpServletRequest,
+                       @RequestParam String userId,
+                       @RequestParam(name = "page", defaultValue = "1") int page) {
+
+        /* ユーザー認証情報からユーザIDを取得 */
+        String myUserId = httpServletRequest.getRemoteUser();
 
         /* Model ⇔ Controller */
         UserDto user = userService.findUser(userId); // ユーザー情報
         List<MicropostDto> followsMicropostList = micropostService.searchUserMicropost(userId, page); // ユーザーのマイクロポスト
         int followNumber = followService.findFollowNumber(userId); // ユーザーのフォロー数
         int followerNumber = followService.findFollowerNumber(userId); // ユーザーのフォロワー数
+        boolean isFollowing = followService.isFollowing(myUserId, userId); //フォローしているか
 
         /* View ⇔ Controller */
         model.addAttribute("userName", user.getName());
@@ -165,6 +171,7 @@ public class MicropostsController {
         model.addAttribute("followNumber", followNumber);
         model.addAttribute("followerNumber", followerNumber);
         model.addAttribute("followsMicropostList", followsMicropostList);
+        model.addAttribute("isFollowing", isFollowing);
         model.addAttribute("page", page);
 
         return "userprofile";
@@ -175,7 +182,7 @@ public class MicropostsController {
                       @RequestParam String userId,
                       @RequestParam(name = "page", defaultValue = "1") int page){
 
-        List<OtherUserDto> followingUsers = userService.findFollowingUser(userId, page);
+        List<UserDto> followingUsers = userService.findFollowingUser(userId, page);
         model.addAttribute("userId", userId);
         model.addAttribute("followingUsers", followingUsers);
         model.addAttribute("page", page);
@@ -188,7 +195,7 @@ public class MicropostsController {
                         @RequestParam String userId,
                         @RequestParam(name = "page", defaultValue = "1") int page){
 
-        List<OtherUserDto> followedUsers = userService.findFollowedUser(userId, page);
+        List<UserDto> followedUsers = userService.findFollowedUser(userId, page);
         model.addAttribute("userId", userId);
         model.addAttribute("followedUsers", followedUsers);
         model.addAttribute("page", page);

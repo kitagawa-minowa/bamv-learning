@@ -36,6 +36,20 @@
                 ><small class="text-muted">フォロワー</small></span
                 >
                 </a>
+                <form th:action="@{/follow(returnTo='/userprofile?userId=' + ${userId})}" method="post">
+                  <input th:type="${isFollowing} ? hidden: submit"
+                         class="btn btn-primary"
+                         th:value="フォロー"
+                  />
+                  <input type="hidden" name="followedUser" th:value="${userId}">
+                </form>
+                <form th:action="@{/delete-follow(returnTo='/userprofile?userId=' + ${userId})}" method="post">
+                  <input th:type="${isFollowing} ? submit: hidden"
+                         class="btn btn-primary"
+                         th:value="フォロー解除"
+                  />
+                  <input type="hidden" name="followedUser" th:value="${userId}">
+                </form>
               </div>
             </div>
           </div>

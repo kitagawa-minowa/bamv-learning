@@ -1,6 +1,5 @@
 package bamv.training.microposts.service;
 
-import bamv.training.microposts.dto.OtherUserDto;
 import bamv.training.microposts.dto.UserDto;
 
 import java.util.List;
@@ -10,9 +9,9 @@ public interface UserService {
 
     int createNewUser(String userId, String name, String password);
 
-    List<OtherUserDto> findAllUsers(String userId, int page);
+    List<UserDto> findAllUsers(String userId, int page);
 
-    List<OtherUserDto> findFollowingUser(String userId, int page);
+    List<UserDto> findFollowingUser(String userId, int page);
 
-    List<OtherUserDto> findFollowedUser(String userId, int page);
+    List<UserDto> findFollowedUser(String userId, int page);
 }
