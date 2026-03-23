@@ -179,26 +179,36 @@ public class MicropostsController {
 
     @GetMapping("/followlist")
     String followList(Model model,
+                      HttpServletRequest httpServletRequest,
                       @RequestParam String userId,
                       @RequestParam(name = "page", defaultValue = "1") int page){
+
+        /* ユーザー認証情報からユーザIDを取得 */
+        String myUserId = httpServletRequest.getRemoteUser();
 
         List<UserDto> followingUsers = userService.findFollowingUser(userId, page);
         model.addAttribute("userId", userId);
         model.addAttribute("followingUsers", followingUsers);
         model.addAttribute("page", page);
+        model.addAttribute("myUserId", myUserId);
 
         return "followlist";
     }
 
     @GetMapping("/followerlist")
     String followerList(Model model,
+                        HttpServletRequest httpServletRequest,
                         @RequestParam String userId,
                         @RequestParam(name = "page", defaultValue = "1") int page){
+
+        /* ユーザー認証情報からユーザIDを取得 */
+        String myUserId = httpServletRequest.getRemoteUser();
 
         List<UserDto> followedUsers = userService.findFollowedUser(userId, page);
         model.addAttribute("userId", userId);
         model.addAttribute("followedUsers", followedUsers);
         model.addAttribute("page", page);
+        model.addAttribute("myUserId", myUserId);
 
         return "followerlist";
     }
