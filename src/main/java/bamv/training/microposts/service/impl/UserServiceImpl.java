@@ -49,8 +49,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> findFollowingUser(String userId, int page) {
-        List<MUser> mUsers = mUserDao.findFollowingUser(userId, page);
+    public List<UserDto> findFollowingUsers(String userId, int page) {
+        List<MUser> mUsers = mUserDao.findFollowingUsers(userId, page);
         return mUsers.stream().map(user ->
                         new UserDto(user.getUserId(),
                                     user.getName(),
@@ -59,8 +59,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> findFollowedUser(String userId, int page) {
-        List<MUser> mUsers = mUserDao.findFollowedUser(userId, page);
+    public List<UserDto> findFollowedUsers(String userId, int page) {
+        List<MUser> mUsers = mUserDao.findFollowedUsers(userId, page);
         return mUsers.stream().map(user ->
                         new UserDto(user.getUserId(),
                                     user.getName(),

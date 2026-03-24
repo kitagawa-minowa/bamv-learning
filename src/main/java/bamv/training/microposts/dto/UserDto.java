@@ -7,6 +7,7 @@ public class UserDto {
 
     private  boolean isFollowing;
 
+    /* フォロー関係を考慮しない場合のコンストラクタ */
     public UserDto(String userId, String name) {
         this.userId = userId;
         this.name = name;

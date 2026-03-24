@@ -45,7 +45,7 @@
 
         <div class="col-md-8">
             <h3>投稿一覧</h3>
-            <div class="card mb-3" th:each="followsMicropost : ${followsMicropostList}">
+            <div class="card mb-3" th:each="micropost : ${micropostList}">
                 <div class="row g-0">
                     <div
                             class="col-md-2 d-flex align-items-center justify-content-center"
@@ -55,15 +55,15 @@
                     <div class="col-md-10">
                         <div class="card-body">
                             <h5 class="card-title">
-                                <span th:text="${followsMicropost.name}"></span>
+                                <span th:text="${micropost.name}"></span>
                             </h5>
-                            <p class="card-text" th:text="${followsMicropost.content}">
+                            <p class="card-text" th:text="${micropost.content}">
                             </p>
                             <p class="card-text">
                                 <small class="text-muted"
                                        th:text="${#dates.format(
                                        new java.util.Date(
-                                           followsMicropost.postedDatetime
+                                           micropost.postedDatetime
                                        ), 'yyyy-MM-dd hh:mm:ss')}">
                                 </small>
                             </p>

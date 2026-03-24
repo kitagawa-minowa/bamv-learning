@@ -51,7 +51,7 @@ public class MUserDaoImpl implements MUserDao {
     }
 
     @Override
-    public List<MUser> findFollowingUser(String userId, int page) {
+    public List<MUser> findFollowingUsers(String userId, int page) {
         RowMapper<MUser> rowMapper = new BeanPropertyRowMapper<>(MUser.class);
         int offset = 5 * (page - 1);
         String query = """
@@ -71,7 +71,7 @@ public class MUserDaoImpl implements MUserDao {
     }
 
     @Override
-    public List<MUser> findFollowedUser(String userId, int page) {
+    public List<MUser> findFollowedUsers(String userId, int page) {
         RowMapper<MUser> rowMapper = new BeanPropertyRowMapper<>(MUser.class);
         int offset = 5 * (page - 1);
         String query = """

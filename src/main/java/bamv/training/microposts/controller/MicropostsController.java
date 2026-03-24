@@ -80,7 +80,7 @@ public class MicropostsController {
 
         /* Model ⇔ Controller */
         UserDto user = userService.findUser(userId); // 自ユーザー情報
-        List<MicropostDto> followsMicropostList = micropostService.searchUserMicropost(userId, page); // 自ユーザーのマイクロポスト
+        List<MicropostDto> micropostList = micropostService.searchUserMicropost(userId, page); // 自ユーザーのマイクロポスト
         int myFollowNumber = followService.findFollowNumber(userId); // 自ユーザーのフォロー数
         int myFollowerNumber = followService.findFollowerNumber(userId); // 自ユーザーのフォロワー数
 
@@ -89,7 +89,7 @@ public class MicropostsController {
         model.addAttribute("myUserName", user.getName());
         model.addAttribute("myFollowNumber", myFollowNumber);
         model.addAttribute("myFollowerNumber", myFollowerNumber);
-        model.addAttribute("followsMicropostList", followsMicropostList);
+        model.addAttribute("micropostList", micropostList);
         model.addAttribute("page", page);
 
         return "myprofile";
@@ -111,13 +111,16 @@ public class MicropostsController {
     }
 
     @GetMapping("/userlist")
-    String userlist(Model model, HttpServletRequest httpServletRequest, @RequestParam(name = "page", defaultValue = "1") int page){
+    String userlist(Model model,
+                    HttpServletRequest httpServletRequest,
+                    @RequestParam(name = "page", defaultValue = "1") int page){
         /* ユーザー認証情報からユーザIDを取得 */
         String userId = httpServletRequest.getRemoteUser();
 
-        /* ユーザ一覧リストを取得 */
-        List<UserDto> users = userService.findAllUsers(userId, page);
+        /* Model ⇔ Controller */
+        List<UserDto> users = userService.findAllUsers(userId, page); //自身を除くユーザーのリスト
 
+        /* View ⇔ Controller */
         model.addAttribute("users", users);
         model.addAttribute("page", page);
 
@@ -127,14 +130,15 @@ public class MicropostsController {
     @PostMapping("/follow")
     String follow(HttpServletRequest httpServletRequest,
                   @RequestParam String followedUser,
+                  /* リダイレクト先 */
                   @RequestParam(value = "returnTo", defaultValue = "/userlist") String returnTo){
         /* ユーザー認証情報からユーザIDを取得 */
-        String userId = httpServletRequest.getRemoteUser();
+        String myUserId = httpServletRequest.getRemoteUser();
 
         /* フォロー対象ユーザーのIDを取得 */
         String followedUserId = userService.findUser(followedUser).getUserId();
 
-        followService.addFollow(userId, followedUserId);
+        followService.addFollow(myUserId, followedUserId);
 
         return "redirect:" + returnTo;
     }
@@ -142,14 +146,15 @@ public class MicropostsController {
     @PostMapping("/delete-follow")
     String deleteFollow(HttpServletRequest httpServletRequest,
                         @RequestParam String followedUser,
+                        /* リダイレクト先 */
                         @RequestParam(value = "returnTo", defaultValue = "/userlist") String returnTo){
         /* ユーザー認証情報からユーザIDを取得 */
-        String userId = httpServletRequest.getRemoteUser();
+        String myUserId = httpServletRequest.getRemoteUser();
 
         /* フォロー解除対象ユーザーのIDを取得 */
         String followedUserId = userService.findUser(followedUser).getUserId();
 
-        followService.deleteFollow(userId, followedUserId);
+        followService.deleteFollow(myUserId, followedUserId);
 
         return "redirect:" + returnTo;
     }
@@ -160,12 +165,12 @@ public class MicropostsController {
                        @RequestParam String userId,
                        @RequestParam(name = "page", defaultValue = "1") int page) {
 
-        /* ユーザー認証情報からユーザIDを取得 */
+        /* ユーザー認証情報からユーザIDを取得 フォロー関係のチェックのため */
         String myUserId = httpServletRequest.getRemoteUser();
 
         /* Model ⇔ Controller */
         UserDto user = userService.findUser(userId); // ユーザー情報
-        List<MicropostDto> followsMicropostList = micropostService.searchUserMicropost(userId, page); // ユーザーのマイクロポスト
+        List<MicropostDto> micropostList = micropostService.searchUserMicropost(userId, page); // ユーザーのマイクロポスト
         int followNumber = followService.findFollowNumber(userId); // ユーザーのフォロー数
         int followerNumber = followService.findFollowerNumber(userId); // ユーザーのフォロワー数
         boolean isFollowing = followService.isFollowing(myUserId, userId); //フォローしているか
@@ -175,7 +180,7 @@ public class MicropostsController {
         model.addAttribute("userId", user.getUserId());
         model.addAttribute("followNumber", followNumber);
         model.addAttribute("followerNumber", followerNumber);
-        model.addAttribute("followsMicropostList", followsMicropostList);
+        model.addAttribute("micropostList", micropostList);
         model.addAttribute("isFollowing", isFollowing);
         model.addAttribute("page", page);
 
@@ -191,13 +196,14 @@ public class MicropostsController {
         /* ユーザー認証情報からユーザIDを取得 */
         String myUserId = httpServletRequest.getRemoteUser();
 
-        /* フォロー中のユーザリストを取得 */
-        List<UserDto> followingUsers = userService.findFollowingUser(userId, page);
+        /* Model ⇔ Controller */
+        List<UserDto> followingUsers = userService.findFollowingUsers(userId, page); //フォローユーザーのリスト
 
+        /* View ⇔ Controller */
+        model.addAttribute("myUserId", myUserId); //自身のフォローボタンを表示させない処理のため使用
         model.addAttribute("userId", userId);
         model.addAttribute("followingUsers", followingUsers);
         model.addAttribute("page", page);
-        model.addAttribute("myUserId", myUserId);
 
         return "followlist";
     }
@@ -211,13 +217,14 @@ public class MicropostsController {
         /* ユーザー認証情報からユーザIDを取得 */
         String myUserId = httpServletRequest.getRemoteUser();
 
-        /* フォロワーリストを取得 */
-        List<UserDto> followedUsers = userService.findFollowedUser(userId, page);
+        /* Model ⇔ Controller */
+        List<UserDto> followedUsers = userService.findFollowedUsers(userId, page); //フォロワーのリスト
 
+        /* View ⇔ Controller */
+        model.addAttribute("myUserId", myUserId); //自身のフォローボタンを表示させない処理のため使用
         model.addAttribute("userId", userId);
         model.addAttribute("followedUsers", followedUsers);
         model.addAttribute("page", page);
-        model.addAttribute("myUserId", myUserId);
 
         return "followerlist";
     }

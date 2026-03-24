@@ -15,7 +15,7 @@ public interface MUserDao {
 
     List<MUser> findAllUsers(String userId, int page);
 
-    List<MUser> findFollowingUser(String userId, int page);
+    List<MUser> findFollowingUsers(String userId, int page);
 
-    List<MUser> findFollowedUser(String userId, int page);
+    List<MUser> findFollowedUsers(String userId, int page);
 }

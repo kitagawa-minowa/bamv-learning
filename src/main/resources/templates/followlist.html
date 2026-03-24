@@ -21,28 +21,28 @@
                     >
                         <span style="font-size: 100px" class="material-icons">person</span>
                     </div>
-                    <div class="col-md-10" th:action="@{/userprofile}" th:name="userId" th:value="${user.userId}">
+                    <div class="col-md-10">
                         <div class="card-body">
                             <h5 class="card-title">
-                                <a th:href="@{/userprofile?userId={userId}(userId=${user.userId})}" th:text="${user.name}"></a>
+                                <a th:href="@{/userprofile(userId=${user.userId})}" th:text="${user.name}"></a>
                             </h5>
                             <th:block th:if="${myUserId} != ${user.userId}">
-                            <form th:action="@{/follow(returnTo='/followlist?userId=' + ${userId}
-                                                + '&page=' + ${page})}" method="post">
-                                <input th:type="${user.isFollowing} ? hidden: submit"
-                                       class="btn btn-primary"
-                                       th:value="フォロー"
-                                />
-                                <input type="hidden" name="followedUser" th:value="${user.userId}">
-                            </form>
-                            <form th:action="@{/delete-follow(returnTo='/followlist?userId=' + ${userId}
-                                                + '&page=' + ${page})}" method="post">
-                                <input th:type="${user.isFollowing} ? submit: hidden"
-                                       class="btn btn-primary"
-                                       th:value="フォロー解除"
-                                />
-                                <input type="hidden" name="followedUser" th:value="${user.userId}">
-                            </form>
+                                <form th:action="@{/follow(returnTo='/followlist?userId=' + ${userId}
+                                                    + '&page=' + ${page})}" method="post">
+                                    <input th:type="${user.isFollowing} ? hidden: submit"
+                                           class="btn btn-primary"
+                                           th:value="フォロー"
+                                    />
+                                    <input type="hidden" name="followedUser" th:value="${user.userId}">
+                                </form>
+                                <form th:action="@{/delete-follow(returnTo='/followlist?userId=' + ${userId}
+                                                    + '&page=' + ${page})}" method="post">
+                                    <input th:type="${user.isFollowing} ? submit: hidden"
+                                           class="btn btn-primary"
+                                           th:value="フォロー解除"
+                                    />
+                                    <input type="hidden" name="followedUser" th:value="${user.userId}">
+                                </form>
                             </th:block>
                         </div>
                     </div>
