@@ -197,11 +197,13 @@ public class MicropostsController {
         String myUserId = httpServletRequest.getRemoteUser();
 
         /* Model ⇔ Controller */
+        String userName = userService.findUser(userId).getName(); //ユーザー名
         List<UserDto> followingUsers = userService.findFollowingUsers(userId, page); //フォローユーザーのリスト
 
         /* View ⇔ Controller */
         model.addAttribute("myUserId", myUserId); //自身のフォローボタンを表示させない処理のため使用
         model.addAttribute("userId", userId);
+        model.addAttribute("userName", userName);
         model.addAttribute("followingUsers", followingUsers);
         model.addAttribute("page", page);
 
@@ -218,11 +220,13 @@ public class MicropostsController {
         String myUserId = httpServletRequest.getRemoteUser();
 
         /* Model ⇔ Controller */
+        String userName = userService.findUser(userId).getName(); //ユーザー名
         List<UserDto> followedUsers = userService.findFollowedUsers(userId, page); //フォロワーのリスト
 
         /* View ⇔ Controller */
         model.addAttribute("myUserId", myUserId); //自身のフォローボタンを表示させない処理のため使用
         model.addAttribute("userId", userId);
+        model.addAttribute("userName", userName);
         model.addAttribute("followedUsers", followedUsers);
         model.addAttribute("page", page);
 

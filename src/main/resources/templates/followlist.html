@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <title>フォロー</title>
+    <title th:text="${userName} + のフォロー">○○のフォロー</title>
 </head>
 <body>
 <span th:replace="~{header :: header}"></span>
 <main class="container">
     <div class="row">
         <div class="col-md-8">
-            <h3>フォロー</h3>
+            <h3 th:text="${userName} + のフォロー">○○のフォロー</h3>
             <div class="card mb-3" th:each="user : ${followingUsers}">
                 <div class="row g-0">
                     <div
@@ -24,7 +24,7 @@
                     <div class="col-md-10">
                         <div class="card-body">
                             <h5 class="card-title">
-                                <a th:href="@{/userprofile(userId=${user.userId})}" th:text="${user.name}"></a>
+                                <a th:href="@{/userprofile(userId=${user.userId})}" th:text="${user.name}">ユーザー名</a>
                             </h5>
                             <th:block th:if="${myUserId} != ${user.userId}">
                                 <form th:action="@{/follow(returnTo='/followlist?userId=' + ${userId}
