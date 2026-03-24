@@ -85,7 +85,7 @@ public class MicropostsController {
         int myFollowerNumber = followService.findFollowerNumber(userId); // 自ユーザーのフォロワー数
 
         /* View ⇔ Controller */
-        model.addAttribute("myUserId", user.getUserId());
+        model.addAttribute("myUserId", user.getUserId()); //フォローリスト画面に渡したいためIDを追加で付加
         model.addAttribute("myUserName", user.getName());
         model.addAttribute("myFollowNumber", myFollowNumber);
         model.addAttribute("myFollowerNumber", myFollowerNumber);
@@ -115,9 +115,12 @@ public class MicropostsController {
         /* ユーザー認証情報からユーザIDを取得 */
         String userId = httpServletRequest.getRemoteUser();
 
+        /* ユーザ一覧リストを取得 */
         List<UserDto> users = userService.findAllUsers(userId, page);
+
         model.addAttribute("users", users);
         model.addAttribute("page", page);
+
         return "userlist";
     }
 
@@ -132,6 +135,7 @@ public class MicropostsController {
         String followedUserId = userService.findUser(followedUser).getUserId();
 
         followService.addFollow(userId, followedUserId);
+
         return "redirect:" + returnTo;
     }
 
@@ -146,6 +150,7 @@ public class MicropostsController {
         String followedUserId = userService.findUser(followedUser).getUserId();
 
         followService.deleteFollow(userId, followedUserId);
+
         return "redirect:" + returnTo;
     }
 
@@ -186,7 +191,9 @@ public class MicropostsController {
         /* ユーザー認証情報からユーザIDを取得 */
         String myUserId = httpServletRequest.getRemoteUser();
 
+        /* フォロー中のユーザリストを取得 */
         List<UserDto> followingUsers = userService.findFollowingUser(userId, page);
+
         model.addAttribute("userId", userId);
         model.addAttribute("followingUsers", followingUsers);
         model.addAttribute("page", page);
@@ -204,7 +211,9 @@ public class MicropostsController {
         /* ユーザー認証情報からユーザIDを取得 */
         String myUserId = httpServletRequest.getRemoteUser();
 
+        /* フォロワーリストを取得 */
         List<UserDto> followedUsers = userService.findFollowedUser(userId, page);
+
         model.addAttribute("userId", userId);
         model.addAttribute("followedUsers", followedUsers);
         model.addAttribute("page", page);

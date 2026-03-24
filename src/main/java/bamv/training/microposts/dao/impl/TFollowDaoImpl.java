@@ -45,8 +45,8 @@ public class TFollowDaoImpl implements TFollowDao {
     public boolean isFollowing(String followingUserId, String followedUserId) {
         String query = "SELECT COUNT(*) FROM t_follow WHERE following_user_id = ? AND followed_user_id = ?";
         int count = jdbcTemplate.queryForObject(query, Integer.class, followingUserId, followedUserId);
-        if(count > 0){
-            return true;
-        } else return false;
+
+        /* SELECT CONT(*) の結果が1件でもあればフォローしているのでtrueを返す */
+        return count > 0;
     }
 }

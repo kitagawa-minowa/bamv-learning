@@ -35,8 +35,7 @@ public class MUserDaoImpl implements MUserDao {
     @Override
     public List<MUser> findAllUsers(String userId, int page) {
         RowMapper<MUser> rowMapper = new BeanPropertyRowMapper<>(MUser.class);
-//        String query = "SELECT * FROM m_user WHERE NOT user_id = ?";
-        int offset = 5 * (page - 1);
+        int offset = 5 * (page - 1); //5人ずつ表示させる
         String query = """
                     SELECT
                         *
