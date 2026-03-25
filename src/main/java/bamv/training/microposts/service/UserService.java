@@ -11,7 +11,7 @@ public interface UserService {
 
     List<UserDto> findAllUsers(String userId, int page);
 
-    List<UserDto> findFollowingUsers(String userId, int page);
+    List<UserDto> findFollowingUsers(String loginUserId, String userId, int page);
 
-    List<UserDto> findFollowedUsers(String userId, int page);
+    List<UserDto> findFollowedUsers(String loginUserId, String userId, int page);
 }

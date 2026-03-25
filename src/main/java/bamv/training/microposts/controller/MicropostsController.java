@@ -115,12 +115,13 @@ public class MicropostsController {
                     HttpServletRequest httpServletRequest,
                     @RequestParam(name = "page", defaultValue = "1") int page){
         /* ユーザー認証情報からユーザIDを取得 */
-        String userId = httpServletRequest.getRemoteUser();
+        String myUserId = httpServletRequest.getRemoteUser();
 
         /* Model ⇔ Controller */
-        List<UserDto> users = userService.findAllUsers(userId, page); //自身を除くユーザーのリスト
+        List<UserDto> users = userService.findAllUsers(myUserId, page); //自身を除くユーザーのリスト
 
         /* View ⇔ Controller */
+        model.addAttribute("myUserId", myUserId);
         model.addAttribute("users", users);
         model.addAttribute("page", page);
 
@@ -176,12 +177,11 @@ public class MicropostsController {
         boolean isFollowing = followService.isFollowing(myUserId, userId); //フォローしているか
 
         /* View ⇔ Controller */
-        model.addAttribute("userName", user.getName());
-        model.addAttribute("userId", user.getUserId());
+        model.addAttribute("myUserId", myUserId);
+        model.addAttribute("user", user);
         model.addAttribute("followNumber", followNumber);
         model.addAttribute("followerNumber", followerNumber);
         model.addAttribute("micropostList", micropostList);
-        model.addAttribute("isFollowing", isFollowing);
         model.addAttribute("page", page);
 
         return "userprofile";
@@ -198,7 +198,7 @@ public class MicropostsController {
 
         /* Model ⇔ Controller */
         String userName = userService.findUser(userId).getName(); //ユーザー名
-        List<UserDto> followingUsers = userService.findFollowingUsers(userId, page); //フォローユーザーのリスト
+        List<UserDto> followingUsers = userService.findFollowingUsers(myUserId, userId, page); //フォローユーザーのリスト
 
         /* View ⇔ Controller */
         model.addAttribute("myUserId", myUserId); //自身のフォローボタンを表示させない処理のため使用
@@ -221,7 +221,7 @@ public class MicropostsController {
 
         /* Model ⇔ Controller */
         String userName = userService.findUser(userId).getName(); //ユーザー名
-        List<UserDto> followedUsers = userService.findFollowedUsers(userId, page); //フォロワーのリスト
+        List<UserDto> followedUsers = userService.findFollowedUsers(myUserId, userId, page); //フォロワーのリスト
 
         /* View ⇔ Controller */
         model.addAttribute("myUserId", myUserId); //自身のフォローボタンを表示させない処理のため使用
