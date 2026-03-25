@@ -1,0 +1,18 @@
+<div th:fragment="followbutton(loginUserId, user, returnTo)">
+  <th:block th:if="${loginUserId} != ${user.userId}">
+    <form th:action="@{/follow(returnTo=${returnTo})}" method="post">
+      <input th:type="${user.isFollowing} ? hidden : submit"
+             class="btn btn-primary"
+             th:value="フォロー"
+      />
+      <input type="hidden" name="followedUser" th:value="${user.userId}">
+    </form>
+    <form th:action="@{/delete-follow(returnTo=${returnTo})}" method="post">
+      <input th:type="${user.isFollowing} ? submit : hidden"
+             class="btn btn-primary"
+             th:value="フォロー解除"
+      />
+      <input type="hidden" name="followedUser" th:value="${user.userId}">
+    </form>
+  </th:block>
+</div>

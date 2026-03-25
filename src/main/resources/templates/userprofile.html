@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <title th:text="${userName}"></title>
+  <title th:text="${user.name}"></title>
 </head>
 <body>
 <span th:replace="~{header :: header}"></span>
@@ -23,33 +23,24 @@
             </div>
             <div class="col-md-8">
               <div>
-                <h5 th:text="${userName}"></h5>
-                <a th:href="@{followlist(userId=${userId})}">
+                <h5 th:text="${user.name}"></h5>
+                <a th:href="@{followlist(userId=${user.userId})}">
                 <span
                 ><span th:text="${followNumber}"></span
                 ><small class="text-muted">フォロー</small></span
                 >
                 </a>
-                <a th:href="@{followerlist(userId=${userId})}">
+                <a th:href="@{followerlist(userId=${user.userId})}">
                 <span
                 ><span th:text="${followerNumber}"></span
                 ><small class="text-muted">フォロワー</small></span
                 >
                 </a>
-                <form th:action="@{/follow(returnTo='/userprofile?userId=' + ${userId})}" method="post">
-                  <input th:type="${isFollowing} ? hidden: submit"
-                         class="btn btn-primary"
-                         th:value="フォロー"
-                  />
-                  <input type="hidden" name="followedUser" th:value="${userId}">
-                </form>
-                <form th:action="@{/delete-follow(returnTo='/userprofile?userId=' + ${userId})}" method="post">
-                  <input th:type="${isFollowing} ? submit: hidden"
-                         class="btn btn-primary"
-                         th:value="フォロー解除"
-                  />
-                  <input type="hidden" name="followedUser" th:value="${userId}">
-                </form>
+
+                <div th:replace="~{followbutton :: followbutton(
+                                    ${myUserId}, ${user}, '/userprofile?userId=' + ${user.userId})}">
+                </div>
+<!--
               </div>
             </div>
           </div>
@@ -90,20 +81,20 @@
         <ul class="pagination">
           <li class="page-item">
             <th:block th:if="${page - 1} > 0">
-              <a class="page-link" th:href="@{/userprofile(userId=${userId}, page=${page - 1})}">前へ</a>
+              <a class="page-link" th:href="@{/userprofile(userId=${user.userId}, page=${page - 1})}">前へ</a>
             </th:block>
             <th:block th:if="${page - 1} <= 0">
               <a class="page-link" href="#">前へ</a>
             </th:block>
           </li>
-          <li class="page-item"><a class="page-link" th:href="@{/userprofile(userId=${userId}, page=${page})}"
+          <li class="page-item"><a class="page-link" th:href="@{/userprofile(userId=${user.userId}, page=${page})}"
                                    th:text="${page}"></a></li>
-          <li class="page-item"><a class="page-link" th:href="@{/userprofile(userId=${userId}, page=${page + 1})}"
+          <li class="page-item"><a class="page-link" th:href="@{/userprofile(userId=${user.userId}, page=${page + 1})}"
                                    th:text="${page + 1}"></a></li>
-          <li class="page-item"><a class="page-link" th:href="@{/userprofile(userId=${userId}, page=${page + 2})}"
+          <li class="page-item"><a class="page-link" th:href="@{/userprofile(userId=${user.userId}, page=${page + 2})}"
                                    th:text="${page + 2}"></a></li>
           <li class="page-item">
-            <a class="page-link" th:href="@{/userprofile(userId=${userId}, page=${page + 1})}">次へ</a>
+            <a class="page-link" th:href="@{/userprofile(userId=${user.userId}, page=${page + 1})}">次へ</a>
           </li>
         </ul>
       </nav>
