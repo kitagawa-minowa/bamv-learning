@@ -114,11 +114,11 @@ public class MicropostsController {
     String userlist(Model model,
                     HttpServletRequest httpServletRequest,
                     @RequestParam(name = "page", defaultValue = "1") int page){
-        /* ユーザー認証情報からユーザIDを取得 */
+        /* ログインユーザのIDを取得 */
         String myUserId = httpServletRequest.getRemoteUser();
 
         /* Model ⇔ Controller */
-        List<UserDto> users = userService.findAllUsers(myUserId, page); //自身を除くユーザーのリスト
+        List<UserDto> users = userService.findAllUsers(myUserId, page); //自身を除くユーザのリスト
 
         /* View ⇔ Controller */
         model.addAttribute("myUserId", myUserId);
@@ -152,7 +152,7 @@ public class MicropostsController {
         /* ユーザー認証情報からユーザIDを取得 */
         String myUserId = httpServletRequest.getRemoteUser();
 
-        /* フォロー解除対象ユーザーのIDを取得 */
+        /* フォロー解除対象ユーザのIDを取得 */
         String followedUserId = userService.findUser(followedUser).getUserId();
 
         followService.deleteFollow(myUserId, followedUserId);
@@ -161,12 +161,12 @@ public class MicropostsController {
     }
 
     @GetMapping("/userprofile")
-    String userProfile(Model model,
+    String userprofile(Model model,
                        HttpServletRequest httpServletRequest,
                        @RequestParam String userId,
                        @RequestParam(name = "page", defaultValue = "1") int page) {
 
-        /* ユーザー認証情報からユーザIDを取得 フォロー関係のチェックのため */
+        /* ログインユーザのIDを取得 フォロー関係のチェックのため */
         String myUserId = httpServletRequest.getRemoteUser();
 
         /* Model ⇔ Controller */
@@ -174,7 +174,6 @@ public class MicropostsController {
         List<MicropostDto> micropostList = micropostService.searchUserMicropost(userId, page); // ユーザーのマイクロポスト
         int followNumber = followService.findFollowNumber(userId); // ユーザーのフォロー数
         int followerNumber = followService.findFollowerNumber(userId); // ユーザーのフォロワー数
-        boolean isFollowing = followService.isFollowing(myUserId, userId); //フォローしているか
 
         /* View ⇔ Controller */
         model.addAttribute("myUserId", myUserId);
@@ -188,12 +187,12 @@ public class MicropostsController {
     }
 
     @GetMapping("/followlist")
-    String followList(Model model,
+    String followlist(Model model,
                       HttpServletRequest httpServletRequest,
                       @RequestParam String userId,
                       @RequestParam(name = "page", defaultValue = "1") int page){
 
-        /* ユーザー認証情報からユーザIDを取得 */
+        /* ログインユーザーのIDを取得 */
         String myUserId = httpServletRequest.getRemoteUser();
 
         /* Model ⇔ Controller */
@@ -211,12 +210,12 @@ public class MicropostsController {
     }
 
     @GetMapping("/followerlist")
-    String followerList(Model model,
+    String followerlist(Model model,
                         HttpServletRequest httpServletRequest,
                         @RequestParam String userId,
                         @RequestParam(name = "page", defaultValue = "1") int page){
 
-        /* ユーザー認証情報からユーザIDを取得 */
+        /* ログインユーザーのIDを取得 */
         String myUserId = httpServletRequest.getRemoteUser();
 
         /* Model ⇔ Controller */
