@@ -7,6 +7,8 @@ import java.util.List;
 public interface UserService {
     UserDto findUser(String userId);
 
+    UserDto findUser(String myUserId, String userId);
+
     int createNewUser(String userId, String name, String password);
 
     List<UserDto> findAllUsers(String userId, int page);

@@ -137,7 +137,7 @@ public class MicropostsController {
         String myUserId = httpServletRequest.getRemoteUser();
 
         /* フォロー対象ユーザーのIDを取得 */
-        String followedUserId = userService.findUser(followedUser).getUserId();
+        String followedUserId = userService.findUser(myUserId, followedUser).getUserId();
 
         followService.addFollow(myUserId, followedUserId);
 
@@ -153,7 +153,7 @@ public class MicropostsController {
         String myUserId = httpServletRequest.getRemoteUser();
 
         /* フォロー解除対象ユーザのIDを取得 */
-        String followedUserId = userService.findUser(followedUser).getUserId();
+        String followedUserId = userService.findUser(myUserId, followedUser).getUserId();
 
         followService.deleteFollow(myUserId, followedUserId);
 
@@ -170,7 +170,7 @@ public class MicropostsController {
         String myUserId = httpServletRequest.getRemoteUser();
 
         /* Model ⇔ Controller */
-        UserDto user = userService.findUser(userId); // ユーザー情報
+        UserDto user = userService.findUser(myUserId, userId); // ユーザー情報
         List<MicropostDto> micropostList = micropostService.searchUserMicropost(userId, page); // ユーザーのマイクロポスト
         int followNumber = followService.findFollowNumber(userId); // ユーザーのフォロー数
         int followerNumber = followService.findFollowerNumber(userId); // ユーザーのフォロワー数

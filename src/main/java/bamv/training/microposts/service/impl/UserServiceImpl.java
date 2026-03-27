@@ -1,9 +1,9 @@
 package bamv.training.microposts.service.impl;
 
 import bamv.training.microposts.dao.MUserDao;
-import bamv.training.microposts.dao.TFollowDao;
 import bamv.training.microposts.dto.UserDto;
 import bamv.training.microposts.entity.MUser;
+import bamv.training.microposts.service.FollowService;
 import bamv.training.microposts.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
     private MUserDao mUserDao;
 
     @Autowired
-    private TFollowDao tFollowDao;
+    private FollowService followService;
 
     @Override
     public UserDto findUser(String userId) {
@@ -29,6 +29,16 @@ public class UserServiceImpl implements UserService {
         return new UserDto(
                 mUser.getUserId(),
                 mUser.getName()
+        );
+    }
+
+    @Override
+    public UserDto findUser(String myUserId, String userId) {
+        MUser mUser = mUserDao.findUser(userId);
+        return new UserDto(
+                mUser.getUserId(),
+                mUser.getName(),
+                followService.isFollowing(myUserId, userId)
         );
     }
 
@@ -44,7 +54,7 @@ public class UserServiceImpl implements UserService {
         return mUsers.stream().map(user ->
                         new UserDto(user.getUserId(),
                                     user.getName(),
-                                    tFollowDao.isFollowing(userId, user.getUserId()))
+                                    followService.isFollowing(userId, user.getUserId()))
         ).toList();
     }
 
@@ -54,7 +64,7 @@ public class UserServiceImpl implements UserService {
         return mUsers.stream().map(user ->
                         new UserDto(user.getUserId(),
                                     user.getName(),
-                                    tFollowDao.isFollowing(myUserId, user.getUserId()))
+                                    followService.isFollowing(myUserId, user.getUserId()))
         ).toList();
     }
 
@@ -64,7 +74,7 @@ public class UserServiceImpl implements UserService {
         return mUsers.stream().map(user ->
                         new UserDto(user.getUserId(),
                                     user.getName(),
-                                    tFollowDao.isFollowing(myUserId, user.getUserId()))
+                                    followService.isFollowing(myUserId, user.getUserId()))
         ).toList();
     }
 }
