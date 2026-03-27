@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+  <div th:fragment="followbutton(loginUserId, user, returnTo)">
+    <th:block th:if="${loginUserId} != ${user.userId}">
+      <form th:action="@{/follow(returnTo=${returnTo})}" method="post">
+        <input th:type="${user.isFollowing} ? hidden : submit"
+               class="btn btn-primary"
+               th:value="フォロー"
+        />
+        <input type="hidden" name="followedUser" th:value="${user.userId}">
+      </form>
+      <form th:action="@{/delete-follow(returnTo=${returnTo})}" method="post">
+        <input th:type="${user.isFollowing} ? submit : hidden"
+               class="btn btn-primary"
+               th:value="フォロー解除"
+        />
+        <input type="hidden" name="followedUser" th:value="${user.userId}">
+      </form>
+    </th:block>
+  </div>
+
+  <div th:fragment="pagination(url, userId, page)">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        <li class="page-item">
+          <th:block th:if="${page - 1} > 0">
+            <a class="page-link" th:href="${userId != null}
+                                        ? @{${url}(userId=${userId}, page=${page - 1})}
+                                        : @{${url}(page=${page - 1})}">
+              前へ</a>
+          </th:block>
+          <th:block th:if="${page - 1} <= 0">
+            <a class="page-link" href="#">前へ</a>
+          </th:block>
+        </li>
+        <li class="page-item"><a class="page-link" th:href="${userId != null}
+                                        ? @{${url}(userId=${userId}, page=${page})}
+                                        : @{${url}(page=${page})}"
+                                 th:text="${page}"></a></li>
+        <li class="page-item"><a class="page-link"
+                                 th:href="${userId != null}
+                                        ? @{${url}(userId=${userId}, page=${page + 1 })}
+                                        : @{${url}(page=${page + 1 })}"
+                                 th:text="${page + 1}"></a></li>
+        <li class="page-item"><a class="page-link" th:href="${userId != null}
+                                                            ? @{${url}(userId=${userId}, page=${page + 2})}
+                                                            : @{${url}(page=${page + 2})}"
+                                 th:text="${page + 2}"></a></li>
+        <li class="page-item">
+          <a class="page-link" th:href="${userId != null}
+                                        ? @{${url}(userId=${userId}, page=${page + 1})}
+                                        : @{${url}(page=${page + 1})}">次へ</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+</html>

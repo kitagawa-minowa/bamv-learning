@@ -14,4 +14,8 @@ public interface MUserDao {
     int addNewUser(String userId, String name, String password);
 
     List<MUser> findAllUsers(String userId, int page);
+
+    List<MUser> findFollowingUsers(String userId, int page);
+
+    List<MUser> findFollowedUsers(String userId, int page);
 }

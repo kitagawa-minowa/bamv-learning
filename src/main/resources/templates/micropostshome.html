@@ -27,14 +27,18 @@
                                 <p><a href="./myprofile">マイプロフィール</a></p>
                                 <p><span th:text="${myMicropostsNumber}"></span><small class="text-muted">
                                     投稿</small></p>
+                                <a th:href="@{followlist(userId=${myUserId})}">
                                 <span
                                 ><span th:text="${myFollowNumber}"></span
                                 ><small class="text-muted">フォロー</small></span
                                 >
+                                </a>
+                                <a th:href="@{followerlist(userId=${myUserId})}">
                                 <span
                                 ><span th:text="${myFollowerNumber}"></span
                                 ><small class="text-muted">フォロワー</small></span
                                 >
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -92,28 +96,7 @@
                 </div>
             </div>
 
-            <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                    <li class="page-item">
-                        <th:block th:if="${page - 1} > 0">
-                            <a class="page-link" th:href="@{micropostshome?page={page}(page=${page - 1})}">前へ</a>
-                        </th:block>
-                        <th:block th:if="${page - 1} <= 0">
-                            <a class="page-link" href="#">前へ</a>
-                        </th:block>
-                    </li>
-                    <li class="page-item"><a class="page-link" th:href="@{micropostshome?page={page}(page=${page})}"
-                                             th:text="${page}"></a></li>
-                    <li class="page-item"><a class="page-link"
-                                             th:href="@{micropostshome?page={page}(page=${page + 1 })}"
-                                             th:text="${page + 1}"></a></li>
-                    <li class="page-item"><a class="page-link" th:href="@{micropostshome?page={page}(page=${page + 2})}"
-                                             th:text="${page + 2}"></a></li>
-                    <li class="page-item">
-                        <a class="page-link" th:href="@{micropostshome?page={page}(page=${page + 1})}">次へ</a>
-                    </li>
-                </ul>
-            </nav>
+            <div th:replace="~{fragment :: pagination('micropostshome',null, ${page})}"></div>
         </div>
     </div>
 </main>
