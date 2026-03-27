@@ -27,7 +27,7 @@
                                 <a th:href="@{/userprofile(userId=${user.userId})}" th:text="${user.name}"></a>
                             </h5>
 
-                            <div th:replace="~{followbutton :: followbutton(
+                            <div th:replace="~{fragment :: followbutton(
                                                 ${myUserId}, ${user}, '/userlist?page=' + ${page})}">
                             </div>
 
@@ -36,28 +36,7 @@
                 </div>
             </div>
 
-            <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                    <li class="page-item">
-                        <th:block th:if="${page - 1} > 0">
-                            <a class="page-link" th:href="@{userlist?page={page}(page=${page - 1})}">前へ</a>
-                        </th:block>
-                        <th:block th:if="${page - 1} <= 0">
-                            <a class="page-link" href="#">前へ</a>
-                        </th:block>
-                    </li>
-                    <li class="page-item"><a class="page-link" th:href="@{userlist?page={page}(page=${page})}"
-                                             th:text="${page}"></a></li>
-                    <li class="page-item"><a class="page-link"
-                                             th:href="@{userlist?page={page}(page=${page + 1 })}"
-                                             th:text="${page + 1}"></a></li>
-                    <li class="page-item"><a class="page-link" th:href="@{userlist?page={page}(page=${page + 2})}"
-                                             th:text="${page + 2}"></a></li>
-                    <li class="page-item">
-                        <a class="page-link" th:href="@{userlist?page={page}(page=${page + 1})}">次へ</a>
-                    </li>
-                </ul>
-            </nav>
+            <div th:replace="~{fragment :: pagination('userlist',null, ${page})}"></div>
         </div>
     </div>
 </main>
