@@ -35,7 +35,7 @@ public class MUserDaoImpl implements MUserDao {
     @Override
     public List<MUser> findAllUsers(String userId, int page) {
         RowMapper<MUser> rowMapper = new BeanPropertyRowMapper<>(MUser.class);
-        int offset = 5 * (page - 1); //5人ずつ表示させる
+        int offset = 3 * (page - 1); //3人ずつ表示させる
         String query = """
                     SELECT
                         *
@@ -45,7 +45,7 @@ public class MUserDaoImpl implements MUserDao {
                         user_id = ?
                     ORDER BY
                         user_id desc
-                    limit ?, 5
+                    limit ?, 3
                    """;
         return jdbcTemplate.query(query, rowMapper, userId, offset);
     }
@@ -53,7 +53,7 @@ public class MUserDaoImpl implements MUserDao {
     @Override
     public List<MUser> findFollowingUsers(String userId, int page) {
         RowMapper<MUser> rowMapper = new BeanPropertyRowMapper<>(MUser.class);
-        int offset = 5 * (page - 1);
+        int offset = 3 * (page - 1);
         String query = """
                     SELECT
                         m_user.*
@@ -65,7 +65,7 @@ public class MUserDaoImpl implements MUserDao {
                         m_user.user_id = t_follow.followed_user_id
                     ORDER BY
                         user_id desc
-                    limit ?, 5
+                    limit ?, 3
                    """;
         return jdbcTemplate.query(query, rowMapper, userId, offset);
     }
@@ -73,7 +73,7 @@ public class MUserDaoImpl implements MUserDao {
     @Override
     public List<MUser> findFollowedUsers(String userId, int page) {
         RowMapper<MUser> rowMapper = new BeanPropertyRowMapper<>(MUser.class);
-        int offset = 5 * (page - 1);
+        int offset = 3 * (page - 1);
         String query = """
                     SELECT
                         m_user.*
@@ -85,7 +85,7 @@ public class MUserDaoImpl implements MUserDao {
                         m_user.user_id = t_follow.following_user_id
                     ORDER BY
                         user_id desc
-                    limit ?, 5
+                    limit ?, 3
                    """;
         return jdbcTemplate.query(query, rowMapper, userId, offset);
     }
