@@ -12,6 +12,9 @@ import java.util.List;
 
 @Repository
 public class MUserDaoImpl implements MUserDao {
+    /* ユーザ一覧での1ページの表示人数 */
+    private static final int USERLIST_OFFSET_NUMBER = 3;
+
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -35,7 +38,7 @@ public class MUserDaoImpl implements MUserDao {
     @Override
     public List<MUser> findAllUsers(String userId, int page) {
         RowMapper<MUser> rowMapper = new BeanPropertyRowMapper<>(MUser.class);
-        int offset = 3 * (page - 1); //3人ずつ表示させる
+        int offset = USERLIST_OFFSET_NUMBER * (page - 1);
         String query = """
                     SELECT
                         *
@@ -53,7 +56,7 @@ public class MUserDaoImpl implements MUserDao {
     @Override
     public List<MUser> findFollowingUsers(String userId, int page) {
         RowMapper<MUser> rowMapper = new BeanPropertyRowMapper<>(MUser.class);
-        int offset = 3 * (page - 1);
+        int offset = USERLIST_OFFSET_NUMBER * (page - 1);
         String query = """
                     SELECT
                         m_user.*
@@ -73,7 +76,7 @@ public class MUserDaoImpl implements MUserDao {
     @Override
     public List<MUser> findFollowedUsers(String userId, int page) {
         RowMapper<MUser> rowMapper = new BeanPropertyRowMapper<>(MUser.class);
-        int offset = 3 * (page - 1);
+        int offset = USERLIST_OFFSET_NUMBER * (page - 1);
         String query = """
                     SELECT
                         m_user.*
